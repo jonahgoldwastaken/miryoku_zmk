@@ -11,9 +11,9 @@ jobs:
     with:
       board: '["seeeduino_xiao_ble"]'
       shield: '["totem_left","totem_right"]'
-      alphas: '["colemakdhk"]'
+      alphas: '["default"]'
       extra: '["qwerty"]'
-      tap: '["colemakdhk"]'
+      tap: '["default"]'
       nav: '["vi"]'
       clipboard: '["mac"]'
       layers: '["default"]'
