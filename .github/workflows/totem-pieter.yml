@@ -12,7 +12,7 @@ jobs:
       board: '["seeeduino_xiao_ble"]'
       shield: '["totem_left","totem_right"]'
       alphas: '["qwerty"]'
-      extra: '["colemakdhk"]'
+      extra: '["colemak"]'
       tap: '["qwerty"]'
       nav: '["vi"]'
       clipboard: '["mac"]'
