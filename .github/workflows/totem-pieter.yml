@@ -2,7 +2,7 @@
 # https://github.com/manna-harbour/miryoku
 
 name: "Pieter's Totem"
-on: workflow_dispatch
+on: push
 jobs:
   build:
     if: github.repository_owner == 'jonahgoldwastaken'
@@ -12,8 +12,10 @@ jobs:
       board: '["seeeduino_xiao_ble"]'
       shield: '["totem_left","totem_right"]'
       alphas: '["qwerty"]'
-      extra: '["colemak"]'
+      extra: '["colemakdh"]'
       tap: '["qwerty"]'
       nav: '["vi"]'
       clipboard: '["mac"]'
       layers: '["default"]'
+      custom_config: '["#define MIRYOKU_KLUDGE_SOFT_OFF"]'
+      kconfig: '["CONFIG_ZMK_PM_SOFT_OFF=y"]'
