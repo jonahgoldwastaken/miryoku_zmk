@@ -1,0 +1,19 @@
+# Copyright 2022 Manna Harbour
+# https://github.com/manna-harbour/miryoku
+
+name: "Jonah's Totem"
+on: workflow_dispatch
+jobs:
+  build:
+    if: github.repository_owner == 'jonahgoldwastaken'
+    uses: ./.github/workflows/main.yml
+    secrets: inherit
+    with:
+      board: '["seeeduino_xiao_ble"]'
+      shield: '["totem_left","totem_right"]'
+      alphas: '["colemakdhk"]'
+      extra: '["qwerty"]'
+      tap: '["colemakdhk"]'
+      nav: '["vi"]'
+      clipboard: '["mac"]'
+      layers: '["default"]'
