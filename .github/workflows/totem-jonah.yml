@@ -17,3 +17,5 @@ jobs:
       nav: '["vi"]'
       clipboard: '["mac"]'
       layers: '["default"]'
+      custom_config: '["#define MIRYOKU_KLUDGE_SOFT_OFF"]'
+      kconfig: '["CONFIG_ZMK_PM_SOFT_OFF=y"]'
