@@ -18,4 +18,4 @@ jobs:
       clipboard: '["mac"]'
       layers: '["default"]'
       custom_config: '["#define MIRYOKU_KLUDGE_SOFT_OFF"]'
-      kconfig: '["CONFIG_ZMK_PM_SOFT_OFF=y"]'
+      kconfig: '["CONFIG_ZMK_PM_SOFT_OFF=y\nCONFIG_BT_CTLR_TX_PWR_PLUS_8=y\CONFIG_ZMK_DISPLAY=y\n"]'
