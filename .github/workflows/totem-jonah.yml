@@ -10,7 +10,7 @@ jobs:
     secrets: inherit
     with:
       board: '["xiao_ble"]'
-      shield: '["totem_left","totem_right"]'
+      shield: '["totem_left","totem_right","settings_reset"]'
       alphas: '["default"]'
       extra: '["qwerty"]'
       tap: '["default"]'
