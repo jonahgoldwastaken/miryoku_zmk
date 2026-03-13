@@ -6,8 +6,15 @@
     u_mt: u_mt {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
+#if defined(MIRYOKU_TIMELESS_HRM)
+      tapping-term-ms = <280>;
+      quick-tap-ms = <175>;
+      require-prior-idle-ms = <150>;
+      flavor = "balanced";
+#else
       tapping-term-ms = <U_TAPPING_TERM>;
       flavor = "tap-preferred";
+#endif
       bindings = <&kp>, <&kp>;
     };
     u_lt: u_lt {
