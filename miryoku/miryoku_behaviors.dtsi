@@ -7,10 +7,10 @@
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
 #if defined(MIRYOKU_TIMELESS_HRM)
-      tapping-term-ms = <320>;
-      quick-tap-ms = <200>;
+      tapping-term-ms = <300>;
+      quick-tap-ms = <175>;
       require-prior-idle-ms = <190>;
-      flavor = "hold-preferred";
+      flavor = "balanced";
       hold-trigger-on-release;
 #else
       tapping-term-ms = <U_TAPPING_TERM>;
