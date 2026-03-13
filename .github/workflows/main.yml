@@ -19,7 +19,7 @@ on:
         default: '["default"]'
       tap:
         type: string
-        default: '["default"]'  
+        default: '["default"]'
       nav:
         type: string
         default: '["default"]'
@@ -44,7 +44,7 @@ on:
       modules:
         type: string
         default: '["default"]'
-  
+
 
 jobs:
   main:
@@ -78,7 +78,7 @@ jobs:
         id: main
         run: |
           test "$MIRYOKU_DEBUG" = 'MIRYOKU_DEBUG_TRUE' && set -x
-          
+
           echo "::group::variables"
 
           if [ -n "${{ matrix.shield }}" -a "${{ matrix.shield }}" != "default" ]
@@ -135,7 +135,7 @@ jobs:
           mkdir "$artifact_dir"
 
           test "$MIRYOKU_DEBUG" = 'MIRYOKU_DEBUG_TRUE' && cp "$configfile" "$artifact_dir"
-          
+
           if [ -n "${{ matrix.kconfig }}" -a "${{ matrix.kconfig }}" != 'default' ]
           then
             kconfig_file="${GITHUB_WORKSPACE}/miryoku_zmk/config/$keyboard_split.conf"
@@ -174,7 +174,7 @@ jobs:
           mapping: '${{ matrix.mapping }}'
           custom_config: '${{ matrix.custom_config }}'
           kconfig: '${{ matrix.kconfig }}'
-          branches: '${{ matrix.branches }}'  
+          branches: '${{ matrix.branches }}'
           modules: '${{ matrix.modules }}'
           " > "$matrix_file"
           cat "$matrix_file"
@@ -270,7 +270,7 @@ jobs:
           echo "::endgroup::"
 
           echo "::group::modules"
-          for module in $modules 
+          for module in $modules
           do
             user=`echo "$module" | cut -f 1 -d '/'`
             repo=`echo "$module" | cut -f 2 -d '/'`
@@ -370,6 +370,6 @@ jobs:
       - name: upload
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.main.outputs.run_name }}
+          name: ${{ steps.main.inputs.shield }}
           path: ${{ steps.main.outputs.artifact_dir }}
 
