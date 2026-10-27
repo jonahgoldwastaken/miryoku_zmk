@@ -20,8 +20,12 @@ import copy  # noqa: E402
 
 # Fixed settings for the synthetic firmware, independent of the real CURRENT
 # values, so the test always has mistakes to find.
-TEST = copy.deepcopy(hrmlab.CURRENT)
-TEST['mt_shift'].update(idle=75, term=220)
+TEST = {
+    'mt':       dict(flavor='balanced', term=220, qt=175, idle=125, on_release=True, positional=True),
+    'mt_shift': dict(flavor='balanced', term=220, qt=175, idle=75, on_release=True, positional=True),
+    'lt':       dict(flavor='tap-preferred', term=200, qt=175, idle=150, on_release=False, positional=False),
+    'lt_fast':  dict(flavor='balanced', term=200, qt=0, idle=0, on_release=False, positional=False),
+}
 
 P = dict(zip('qwfpbjluy', range(9)))
 P.update(dict(zip('arstgmneio', range(10, 20))))

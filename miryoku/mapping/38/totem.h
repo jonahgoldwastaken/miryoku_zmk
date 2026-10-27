@@ -16,11 +16,6 @@
 K00  K20  K21  K22  K23  K24       K25  K26  K27  K28  K29  K09 \
                K32  K33  K34       K35  K36  K37
 
-// Key positions per hand for positional home row mods. Both lists include all
-// thumb keys (32-37) so same-hand thumb combos like Cmd+Tab/Space still work.
-#define MIRYOKU_HRM_LEFT_POSITIONS 0 1 2 3 4 10 11 12 13 14 20 21 22 23 24 25 32 33 34 35 36 37
-#define MIRYOKU_HRM_RIGHT_POSITIONS 5 6 7 8 9 15 16 17 18 19 26 27 28 29 30 31 32 33 34 35 36 37
-
 #define MIRYOKU_KLUDGE_THUMBCOMBOS_LEFT 33 34
 #define MIRYOKU_KLUDGE_THUMBCOMBOS_RIGHT 35 36
 

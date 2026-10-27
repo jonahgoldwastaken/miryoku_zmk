@@ -68,11 +68,28 @@ were fine but would become wrong; change the weight with `--penalty`. Apply the
 recommendation in `miryoku/miryoku_behaviors.dtsi`, and update `CURRENT` in
 `hrmlab.py` to match.
 
+## Test bench
+
+```sh
+python3 tools/hrm-debug/scenarios.py --compare
+```
+
+Simulates realistic use with your measured timing, and compares the current
+settings with the previous firmware:
+- **Actions:** capitals, camelCase, vim capitals after Esc, Cmd/Ctrl/Alt
+  shortcuts with either hand, stacked mods, Sym/Num/Nav/Mouse layers, and mods
+  combined with layers.
+- **Contexts:** right after a letter, Space, Enter or Esc, or a pause.
+
+It also reports accidental mods/layers while typing. Run it before changing
+`miryoku/miryoku_behaviors.dtsi`.
+
 ## Files
 
 - `capture.sh`: records the USB log.
 - `hrmlab.py`: parser, replay engine (port of ZMK `behavior_hold_tap.c`),
   mistake detection and tuner.
+- `scenarios.py`: realistic-usage test bench (see above).
 - `selftest.py`: end-to-end test on a synthetic log in the firmware's format.
   Run it after changing `hrmlab.py`.
 - `../../.github/workflows/totem-jonah-debug.yml`: debug firmware build.

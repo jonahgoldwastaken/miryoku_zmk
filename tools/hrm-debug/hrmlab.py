@@ -61,10 +61,10 @@ CORRECTION_KEYS = {36, 37, 32}  # Backspace, Delete, Esc (vim edits start with E
 
 # Current firmware settings (miryoku/miryoku_behaviors.dtsi).
 CURRENT = {
-    'mt':       dict(flavor='balanced', term=220, qt=175, idle=125, on_release=True, positional=True),
-    'mt_shift': dict(flavor='balanced', term=150, qt=175, idle=0, on_release=True, positional=True),
-    'lt':       dict(flavor='tap-preferred', term=200, qt=175, idle=150, on_release=False, positional=False),
-    'lt_fast':  dict(flavor='balanced', term=200, qt=0, idle=0, on_release=False, positional=False),
+    'mt':       dict(flavor='tap-preferred', term=150, qt=175, idle=0, on_release=False, positional=False),
+    'mt_shift': dict(flavor='tap-preferred', term=150, qt=175, idle=0, on_release=False, positional=False),
+    'lt':       dict(flavor='tap-preferred', term=180, qt=0, idle=0, on_release=False, positional=False),
+    'lt_fast':  dict(flavor='tap-preferred', term=180, qt=0, idle=0, on_release=False, positional=False),
 }
 
 
@@ -423,7 +423,7 @@ def label(attempts, order, correction_ms=2500, correction_keys=10, retry_ms=4000
 
 CAUSE = {
     'quick-tap': 'pressed too soon after the previous key (require-prior-idle / quick-tap)',
-    'key-up': 'hold-tap released before the other key was released (and before tapping-term)',
+    'key-up': 'released before the tapping term (and, for balanced, before the other key)',
     'other-key-up': 'positional rule: first key released was on the same hand',
     'other-key-down': 'positional rule',
     'timer': 'timer',
@@ -549,10 +549,10 @@ def pct(sorted_vals, p):
 
 
 GRID = {
-    'mt':       dict(idle=[50, 75, 100, 125, 150], term=[180, 200, 220, 250, 280], positional=[True, False]),
-    'mt_shift': dict(idle=[0, 25, 50, 75, 100, 125], term=[130, 140, 150, 160, 170, 180, 200, 220], positional=[True, False]),
-    'lt':       dict(idle=[0, 50, 100, 150], term=[180, 200, 220, 250], flavor=['tap-preferred', 'balanced']),
-    'lt_fast':  dict(idle=[0, 25, 50, 75], term=[160, 180, 200, 220], flavor=['balanced', 'tap-preferred']),
+    'mt':       dict(flavor=['tap-preferred', 'balanced'], idle=[0, 50, 125], term=[130, 140, 150, 160, 170, 180, 200]),
+    'mt_shift': dict(flavor=['tap-preferred', 'balanced'], idle=[0, 50, 75], term=[130, 140, 150, 160, 170, 180, 200]),
+    'lt':       dict(flavor=['tap-preferred', 'balanced'], idle=[0, 50, 150], term=[160, 170, 180, 190, 200, 220]),
+    'lt_fast':  dict(flavor=['tap-preferred', 'balanced'], idle=[0, 50], term=[160, 170, 180, 190, 200, 220]),
 }
 
 

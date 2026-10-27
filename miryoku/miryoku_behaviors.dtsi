@@ -4,67 +4,37 @@
 / {
   behaviors {
 #if defined(MIRYOKU_TIMELESS_HRM)
-    // Positional home row mods (tuned for ~100-120 wpm, see docs below).
+    // Hold-taps tuned on recorded typing (tools/hrm-debug, scenarios.py).
     //
-    // - require-prior-idle-ms: a mod pressed within 125 ms of the previous
-    //   keystroke is always a tap (not used for Shift, see below). This is the main guard against misfires
-    //   while typing (at 110 wpm keys arrive ~110 ms apart).
-    // - balanced + hold-trigger-on-release + hold-trigger-key-positions:
-    //   after a pause, the mod becomes a hold once another key is pressed AND
-    //   released while it is held, provided the first key released is on the
-    //   opposite hand or any thumb. Same-hand letters resolve as taps (rolls),
-    //   but other same-hand mods can be stacked (Cmd+Shift+K) and same-hand
-    //   thumbs work (Cmd+Tab, Cmd+Space).
-    // - tapping-term-ms: holding a mod for 220 ms makes it a hold regardless
-    //   of position (needed for same-hand letters such as left Cmd+C).
-    // Known limit: releasing the mod before the other key looks identical to
-    // a roll and resolves as a tap unless the mod was held for 220 ms.
-#define U_HRM_COMMON \
-      compatible = "zmk,behavior-hold-tap"; \
-      #binding-cells = <2>; \
-      flavor = "balanced"; \
-      quick-tap-ms = <175>; \
-      hold-trigger-on-release; \
+    // Holds are decided purely by how long the key is held (tap-preferred):
+    // the measured gap between taps and intended holds is wide and stable,
+    // while key order is not (keys are released nearly simultaneously, and
+    // right-half events arrive a few ms late over BLE).
+    //   letters / home-row-mod keys typed as letters: held <= 128 ms
+    //   home-row mods meant as Cmd/Alt/Ctrl/Shift:     held >= 175 ms
+    //   thumb keys typed as Space/Enter/...:           held <= 149 ms
+    //   thumb keys meant as layers:                    held >= 224 ms
+    // No require-prior-idle-ms and no positional rules: holding is never
+    // decided by the previous key or by which hand the other key is on, so
+    // rolling from Space into Shift, Esc into a vim capital, or using a mod
+    // with a key on the same hand all behave the same.
+
+    // Home-row mods (all modifiers, both hands).
+    u_mt: u_mt {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      flavor = "tap-preferred";
+      tapping-term-ms = <150>;
+      quick-tap-ms = <175>;  // tap then hold repeats the letter
       bindings = <&kp>, <&kp>;
-    // Shift has no require-prior-idle-ms: when rolling from Space into Shift
-    // (". The"), Shift is pressed within ~10-70 ms of the Space press (ZMK
-    // measures from the press), so any idle window turns the capital into a
-    // letter. Recorded typing showed no accidental Shifts without it.
-    // Shift tapping term 150 ms, from recorded typing (tools/hrm-debug): T/N
-    // typed as letters were held at most 112 ms, Shift was held at least
-    // 175 ms, and 27% of the time Shift was released before the letter, which
-    // balanced resolves as a tap unless the term has passed.
-#if defined(MIRYOKU_HRM_RIGHT_POSITIONS)
-#define U_HRM_TRIGGER_L hold-trigger-key-positions = <MIRYOKU_HRM_RIGHT_POSITIONS>;
-#else
-#define U_HRM_TRIGGER_L
-#endif
-#if defined(MIRYOKU_HRM_LEFT_POSITIONS)
-#define U_HRM_TRIGGER_R hold-trigger-key-positions = <MIRYOKU_HRM_LEFT_POSITIONS>;
-#else
-#define U_HRM_TRIGGER_R
-#endif
-    u_mt_l: u_mt_l {
-      U_HRM_COMMON
-      tapping-term-ms = <220>;
-      require-prior-idle-ms = <125>;
-      U_HRM_TRIGGER_L
     };
-    u_mt_r: u_mt_r {
-      U_HRM_COMMON
-      tapping-term-ms = <220>;
-      require-prior-idle-ms = <125>;
-      U_HRM_TRIGGER_R
-    };
-    u_mt_l_shift: u_mt_l_shift {
-      U_HRM_COMMON
-      tapping-term-ms = <150>;
-      U_HRM_TRIGGER_L
-    };
-    u_mt_r_shift: u_mt_r_shift {
-      U_HRM_COMMON
-      tapping-term-ms = <150>;
-      U_HRM_TRIGGER_R
+    // Layer-taps (thumbs, bottom-row pinkies).
+    u_lt: u_lt {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      flavor = "tap-preferred";
+      tapping-term-ms = <180>;
+      bindings = <&mo>, <&kp>;
     };
 #else
     u_mt: u_mt {
@@ -74,37 +44,11 @@
       flavor = "tap-preferred";
       bindings = <&kp>, <&kp>;
     };
-#endif
     u_lt: u_lt {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
       tapping-term-ms = <U_TAPPING_TERM>;
-#if defined(MIRYOKU_TIMELESS_HRM)
-      // Layer-taps for Nav/Mouse/Media/Button (Space/Tab/Esc, bottom-row
-      // pinkies; Sym/Num/Fun use u_lt_fast below): a press within 150 ms of the
-      // previous keystroke is always a tap, so thumbs held a little long while
-      // typing do not switch layers. To use a layer, hold the key ~200 ms
-      // (tap-preferred). quick-tap lets tap-then-hold repeat (e.g. backspace).
-      require-prior-idle-ms = <150>;
-      quick-tap-ms = <175>;
-#endif
       flavor = "tap-preferred";
-      bindings = <&mo>, <&kp>;
-    };
-#if defined(MIRYOKU_TIMELESS_HRM)
-    // Layer-taps for Sym/Num/Fun (Enter/Backspace/Delete by default). These
-    // are chorded mid-typing (Esc then ":" in vim, "(", digits), so:
-    // - balanced: the layer activates as soon as another key is pressed and
-    //   released while the thumb is held, no need to hold for 200 ms.
-    // - no require-prior-idle-ms / quick-tap-ms: a press right after another
-    //   key (or right after tapping the same key) can still become the layer.
-    // Limit: releasing the thumb before the other key gives a tap (same as a
-    // roll), unless the thumb was held for 200 ms.
-    u_lt_fast: u_lt_fast {
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      flavor = "balanced";
-      tapping-term-ms = <U_TAPPING_TERM>;
       bindings = <&mo>, <&kp>;
     };
 #endif
