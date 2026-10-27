@@ -1,0 +1,28 @@
+# Debug build of the TOTEM left (central) half with USB logging, used to
+# record hold-tap timing data for tools/hrm-debug. Run manually from the
+# Actions tab (or `gh workflow run totem-jonah-debug.yml`). Keep the keymap
+# inputs in sync with totem-jonah.yml so the recorded behaviour matches.
+#
+# Flash only the LEFT half with this firmware; the right half keeps the normal
+# build. Logging costs battery: flash the normal build again when done.
+
+name: "Jonah's Totem (debug logging)"
+on: workflow_dispatch
+jobs:
+  build:
+    if: github.repository_owner == 'jonahgoldwastaken'
+    uses: ./.github/workflows/main.yml
+    secrets: inherit
+    with:
+      board: '["xiao_ble//zmk"]'
+      shield: '["totem_left"]'
+      alphas: '["default"]'
+      extra: '["qwerty"]'
+      tap: '["default"]'
+      nav: '["vi"]'
+      clipboard: '["mac"]'
+      layers: '["default"]'
+      custom_config: '["#define MIRYOKU_KLUDGE_SOFT_OFF\n#define MIRYOKU_TIMELESS_HRM"]'
+      snippet: '["zmk-usb-logging"]'
+      # Large log buffers so fast typing bursts are not dropped.
+      kconfig: '["CONFIG_ZMK_PM_SOFT_OFF=y\nCONFIG_BT_CTLR_TX_PWR_PLUS_8=y\nCONFIG_LOG_BUFFER_SIZE=32768\nCONFIG_USB_CDC_ACM_RINGBUF_SIZE=8192"]'
