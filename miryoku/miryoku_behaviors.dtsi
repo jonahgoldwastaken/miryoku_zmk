@@ -3,21 +3,43 @@
 
 / {
   behaviors {
+#if defined(MIRYOKU_TIMELESS_HRM)
+    // Positional home row mods: a mod only resolves to hold when the key
+    // pressed after it is on the opposite hand (or a thumb), so same-hand
+    // rolls stay letters and no large require-prior-idle-ms is needed.
+    // Position lists (MIRYOKU_HRM_*_POSITIONS) come from the mapping header.
+    // require-prior-idle-ms is a small buffer tuned for ~110 wpm bursts
+    // (~110 ms mean inter-key gap, ~60-80 ms in fast rolls).
+#define U_HRM_COMMON \
+      compatible = "zmk,behavior-hold-tap"; \
+      #binding-cells = <2>; \
+      tapping-term-ms = <260>; \
+      quick-tap-ms = <175>; \
+      require-prior-idle-ms = <50>; \
+      flavor = "balanced"; \
+      hold-trigger-on-release; \
+      bindings = <&kp>, <&kp>;
+    u_mt_l: u_mt_l {
+      U_HRM_COMMON
+#if defined(MIRYOKU_HRM_RIGHT_POSITIONS)
+      hold-trigger-key-positions = <MIRYOKU_HRM_RIGHT_POSITIONS>;
+#endif
+    };
+    u_mt_r: u_mt_r {
+      U_HRM_COMMON
+#if defined(MIRYOKU_HRM_LEFT_POSITIONS)
+      hold-trigger-key-positions = <MIRYOKU_HRM_LEFT_POSITIONS>;
+#endif
+    };
+#else
     u_mt: u_mt {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
-#if defined(MIRYOKU_TIMELESS_HRM)
-      tapping-term-ms = <260>;
-      quick-tap-ms = <175>;
-      require-prior-idle-ms = <150>;
-      flavor = "balanced";
-      hold-trigger-on-release;
-#else
       tapping-term-ms = <U_TAPPING_TERM>;
       flavor = "tap-preferred";
-#endif
       bindings = <&kp>, <&kp>;
     };
+#endif
     u_lt: u_lt {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;

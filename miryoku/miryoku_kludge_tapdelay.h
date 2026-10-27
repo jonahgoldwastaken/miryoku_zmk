@@ -33,6 +33,8 @@ U_MACRO(u_tapdelay_tap_##CODE, bindings = <&macro_press &kp CODE>, <&macro_relea
 };
 
 #define U_MT(MOD, TAP) &u_tapdelay_mt_##TAP MOD 0
+#define U_MT_L(MOD, TAP) U_MT(MOD, TAP)
+#define U_MT_R(MOD, TAP) U_MT(MOD, TAP)
 #define U_LT(LAYER, TAP) &u_tapdelay_lt_##TAP LAYER 0
 
 #define MIRYOKU_TAPDELAY_LIST \
