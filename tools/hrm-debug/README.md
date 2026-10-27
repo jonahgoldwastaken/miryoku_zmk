@@ -27,7 +27,9 @@ Plug the left half into the Mac with USB and run:
 tools/hrm-debug/capture.sh
 ```
 
-Then work normally: prose, code, Neovim. When a mod or layer misfires, fix it
+The debug firmware shows up as two USB serial ports (the XIAO board's own one
+and the logging one). The script listens on all of them and records the one that
+sends ZMK log lines; press a key if it waits. Then work normally: prose, code, Neovim. When a mod or layer misfires, fix it
 the way you always do (Backspace, or a Neovim edit) and try again. That is how
 the mistakes are found. Longer is better: aim for a few hours of real use in
 total, over several sessions. Ctrl-C stops a recording. Logs go to
