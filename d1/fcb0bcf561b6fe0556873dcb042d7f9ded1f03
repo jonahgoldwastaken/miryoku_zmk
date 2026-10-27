@@ -1,0 +1,22 @@
+tools/hrm-debug/README.md
+  s_7ca7e5988079c8::t_6fb751aa0e1e02 30-32
+tools/hrm-debug/capture.sh
+  s_7ca7e5988079c8::t_62f989c6f7824b 5-8,12,17-21,23-32,34-39,41-86
+  s_7ca7e5988079c8::t_5efed16aba1fc9 13,15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d1fcb0bcf561b6fe0556873dcb042d7f9ded1f03",
+  "prompts": {},
+  "sessions": {
+    "s_7ca7e5988079c8": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a17d7f-0b9b-73ff-8f79-878c1d9ff709",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Jonah Meijers <ik@jonahmeijers.nl>"
+    }
+  }
+}
