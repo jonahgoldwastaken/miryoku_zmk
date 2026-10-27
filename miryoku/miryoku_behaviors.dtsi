@@ -54,7 +54,8 @@
       #binding-cells = <2>;
       tapping-term-ms = <U_TAPPING_TERM>;
 #if defined(MIRYOKU_TIMELESS_HRM)
-      // Layer-taps (thumbs, bottom-row pinkies): a press within 150 ms of the
+      // Layer-taps for Nav/Mouse/Media/Button (Space/Tab/Esc, bottom-row
+      // pinkies; Sym/Num/Fun use u_lt_fast below): a press within 150 ms of the
       // previous keystroke is always a tap, so thumbs held a little long while
       // typing do not switch layers. To use a layer, hold the key ~200 ms
       // (tap-preferred). quick-tap lets tap-then-hold repeat (e.g. backspace).
@@ -64,5 +65,22 @@
       flavor = "tap-preferred";
       bindings = <&mo>, <&kp>;
     };
+#if defined(MIRYOKU_TIMELESS_HRM)
+    // Layer-taps for Sym/Num/Fun (Enter/Backspace/Delete by default). These
+    // are chorded mid-typing (Esc then ":" in vim, "(", digits), so:
+    // - balanced: the layer activates as soon as another key is pressed and
+    //   released while the thumb is held, no need to hold for 200 ms.
+    // - no require-prior-idle-ms / quick-tap-ms: a press right after another
+    //   key (or right after tapping the same key) can still become the layer.
+    // Limit: releasing the thumb before the other key gives a tap (same as a
+    // roll), unless the thumb was held for 200 ms.
+    u_lt_fast: u_lt_fast {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      flavor = "balanced";
+      tapping-term-ms = <U_TAPPING_TERM>;
+      bindings = <&mo>, <&kp>;
+    };
+#endif
   };
 };
