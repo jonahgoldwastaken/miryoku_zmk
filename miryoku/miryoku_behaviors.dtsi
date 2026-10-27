@@ -6,8 +6,8 @@
 #if defined(MIRYOKU_TIMELESS_HRM)
     // Positional home row mods (tuned for ~100-120 wpm, see docs below).
     //
-    // - require-prior-idle-ms: a mod pressed within 125 ms (Shift: 75 ms) of
-    //   the previous keystroke is always a tap. This is the main guard against misfires
+    // - require-prior-idle-ms: a mod pressed within 125 ms of the previous
+    //   keystroke is always a tap (not used for Shift, see below). This is the main guard against misfires
     //   while typing (at 110 wpm keys arrive ~110 ms apart).
     // - balanced + hold-trigger-on-release + hold-trigger-key-positions:
     //   after a pause, the mod becomes a hold once another key is pressed AND
@@ -26,8 +26,10 @@
       quick-tap-ms = <175>; \
       hold-trigger-on-release; \
       bindings = <&kp>, <&kp>;
-    // Shift is used mid-sentence (". The"), so the Shift keys use a shorter
-    // idle window (75 ms) than the other mods (125 ms).
+    // Shift has no require-prior-idle-ms: when rolling from Space into Shift
+    // (". The"), Shift is pressed within ~10-70 ms of the Space press (ZMK
+    // measures from the press), so any idle window turns the capital into a
+    // letter. Recorded typing showed no accidental Shifts without it.
     // Shift tapping term 150 ms, from recorded typing (tools/hrm-debug): T/N
     // typed as letters were held at most 112 ms, Shift was held at least
     // 175 ms, and 27% of the time Shift was released before the letter, which
@@ -57,13 +59,11 @@
     u_mt_l_shift: u_mt_l_shift {
       U_HRM_COMMON
       tapping-term-ms = <150>;
-      require-prior-idle-ms = <75>;
       U_HRM_TRIGGER_L
     };
     u_mt_r_shift: u_mt_r_shift {
       U_HRM_COMMON
       tapping-term-ms = <150>;
-      require-prior-idle-ms = <75>;
       U_HRM_TRIGGER_R
     };
 #else

@@ -16,6 +16,12 @@ import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import hrmlab  # noqa: E402
+import copy  # noqa: E402
+
+# Fixed settings for the synthetic firmware, independent of the real CURRENT
+# values, so the test always has mistakes to find.
+TEST = copy.deepcopy(hrmlab.CURRENT)
+TEST['mt_shift'].update(idle=75, term=220)
 
 P = dict(zip('qwfpbjluy', range(9)))
 P.update(dict(zip('arstgmneio', range(10, 20))))
@@ -45,7 +51,7 @@ def make_session(rng, n_sentences=60):
         # capital after ". ": Shift(N) + t, pressed soon after the space
         gap = rng.uniform(40, 140)
         t += gap
-        if gap < hrmlab.CURRENT['mt_shift']['idle']:
+        if gap < TEST['mt_shift']['idle']:
             expected_mistakes += 1
             ev += [(t, 16, True), (t + 60, 13, True), (t + 120, 13, False), (t + 150, 16, False)]  # -> "nt"
             t += 450
@@ -68,7 +74,7 @@ def ts_str(ms):
 
 
 def write_log(path, events):
-    dec = hrmlab.Engine(hrmlab.CURRENT).run(events)
+    dec = hrmlab.Engine(TEST).run(events)
     lines = []
     state = [0] * 6
     for t, pos, down in events:
@@ -85,7 +91,7 @@ def write_log(path, events):
     for (pos, t), d in dec.items():
         cls = hrmlab.HOLDTAPS[pos][0]
         lines.append((t + 0.5, f'{ts_str(t + 0.5)} <dbg> zmk: decide_hold_tap: {pos} decided {d["status"]} '
-                               f'({hrmlab.CURRENT[cls]["flavor"]} decision moment {d["moment"]})'))
+                               f'({TEST[cls]["flavor"]} decision moment {d["moment"]})'))
     lines.sort(key=lambda x: x[0])
     with open(path, 'w') as f:
         for _, l in lines:
@@ -102,14 +108,14 @@ def main():
         assert sorted(sess.events) == sorted(events), 'parser did not reconstruct the key events'
         attempts, order = hrmlab.build_attempts(sess)
         hrmlab.label(attempts, order)
-        agree, n, _ = hrmlab.validate(sess, attempts)
+        agree, n, _ = hrmlab.validate(sess, attempts, TEST)
         assert agree == n and n > 0, f'replay mismatch {agree}/{n}'
         found = [a for a in attempts if a.label == 'missed-hold' and a.strength == 'strong']
-        assert len(found) == expected, f'expected {expected} missed holds, found {len(found)}'
+        assert expected > 0 and len(found) == expected, f'expected {expected} missed holds, found {len(found)}'
         assert all(a.fw_moment == 'quick-tap' for a in found)
         false = [a for a in attempts if a.label == 'false-hold']
         assert not false, f'unexpected false holds {len(false)}'
-        better = {k: dict(v) for k, v in hrmlab.CURRENT.items()}
+        better = copy.deepcopy(TEST)
         better['mt_shift']['idle'] = 0
         r = hrmlab.evaluate([sess], [(attempts, order)], better, False)
         assert r['fixed'] == expected, r

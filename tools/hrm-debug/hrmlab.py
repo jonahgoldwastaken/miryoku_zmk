@@ -62,7 +62,7 @@ CORRECTION_KEYS = {36, 37, 32}  # Backspace, Delete, Esc (vim edits start with E
 # Current firmware settings (miryoku/miryoku_behaviors.dtsi).
 CURRENT = {
     'mt':       dict(flavor='balanced', term=220, qt=175, idle=125, on_release=True, positional=True),
-    'mt_shift': dict(flavor='balanced', term=150, qt=175, idle=75, on_release=True, positional=True),
+    'mt_shift': dict(flavor='balanced', term=150, qt=175, idle=0, on_release=True, positional=True),
     'lt':       dict(flavor='tap-preferred', term=200, qt=175, idle=150, on_release=False, positional=False),
     'lt_fast':  dict(flavor='balanced', term=200, qt=0, idle=0, on_release=False, positional=False),
 }
@@ -471,8 +471,8 @@ def evaluate(sessions, data, settings, include_weak):
     return dict(fixed=fixed, still=still, broken=broken, labeled=total_labeled, broken_by_cls=dict(per_cls))
 
 
-def validate(sess, attempts):
-    dec = replay(sess, CURRENT)
+def validate(sess, attempts, settings=None):
+    dec = replay(sess, settings or CURRENT)
     agree = n = 0
     mism = []
     for at in attempts:
