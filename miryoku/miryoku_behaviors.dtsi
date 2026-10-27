@@ -4,19 +4,28 @@
 / {
   behaviors {
 #if defined(MIRYOKU_TIMELESS_HRM)
-    // Positional home row mods: a mod only resolves to hold when the key
-    // pressed after it is on the opposite hand (or a thumb), so same-hand
-    // rolls stay letters and no large require-prior-idle-ms is needed.
-    // Position lists (MIRYOKU_HRM_*_POSITIONS) come from the mapping header.
-    // require-prior-idle-ms is a small buffer tuned for ~110 wpm bursts
-    // (~110 ms mean inter-key gap, ~60-80 ms in fast rolls).
+    // Positional home row mods (tuned for ~100-120 wpm, see docs below).
+    //
+    // - require-prior-idle-ms: a mod pressed within 125 ms of the previous
+    //   keystroke is always a tap. This is the main guard against misfires
+    //   while typing (at 110 wpm keys arrive ~110 ms apart).
+    // - balanced + hold-trigger-on-release + hold-trigger-key-positions:
+    //   after a pause, the mod becomes a hold once another key is pressed AND
+    //   released while it is held, provided the first key released is on the
+    //   opposite hand or any thumb. Same-hand letters resolve as taps (rolls),
+    //   but other same-hand mods can be stacked (Cmd+Shift+K) and same-hand
+    //   thumbs work (Cmd+Tab, Cmd+Space).
+    // - tapping-term-ms: holding a mod for 220 ms makes it a hold regardless
+    //   of position (needed for same-hand letters such as left Cmd+C).
+    // Known limit: releasing the mod before the other key looks identical to
+    // a roll and resolves as a tap unless the mod was held for 220 ms.
 #define U_HRM_COMMON \
       compatible = "zmk,behavior-hold-tap"; \
       #binding-cells = <2>; \
-      tapping-term-ms = <260>; \
-      quick-tap-ms = <175>; \
-      require-prior-idle-ms = <50>; \
       flavor = "balanced"; \
+      tapping-term-ms = <220>; \
+      quick-tap-ms = <175>; \
+      require-prior-idle-ms = <125>; \
       hold-trigger-on-release; \
       bindings = <&kp>, <&kp>;
     u_mt_l: u_mt_l {
@@ -44,6 +53,14 @@
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
       tapping-term-ms = <U_TAPPING_TERM>;
+#if defined(MIRYOKU_TIMELESS_HRM)
+      // Layer-taps (thumbs, bottom-row pinkies): a press within 150 ms of the
+      // previous keystroke is always a tap, so thumbs held a little long while
+      // typing do not switch layers. To use a layer, hold the key ~200 ms
+      // (tap-preferred). quick-tap lets tap-then-hold repeat (e.g. backspace).
+      require-prior-idle-ms = <150>;
+      quick-tap-ms = <175>;
+#endif
       flavor = "tap-preferred";
       bindings = <&mo>, <&kp>;
     };
