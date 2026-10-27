@@ -1,0 +1,22 @@
+miryoku/mapping/38/totem.h
+  s_7ca7e5988079c8::t_3427c9f6e0aa44 19-22
+miryoku/miryoku_behaviors.dtsi
+  s_7ca7e5988079c8::t_a0432539682c5a 56,62-63
+  s_7ca7e5988079c8::t_a82aa1e4c61057 7-21,26-28,57-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ecf107e6ceaa4a535a943733054ff4cd550590d7",
+  "prompts": {},
+  "sessions": {
+    "s_7ca7e5988079c8": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a17d7f-0b9b-73ff-8f79-878c1d9ff709",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Jonah Meijers <ik@jonahmeijers.nl>"
+    }
+  }
+}
