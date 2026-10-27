@@ -1,0 +1,25 @@
+tools/hrm-debug/hrmlab.py
+  s_7ca7e5988079c8::t_427654de3d3be0 553
+  s_7ca7e5988079c8::t_55bf1ab6b2861d 65
+  s_7ca7e5988079c8::t_022e1478e0c952 568
+miryoku/miryoku_behaviors.dtsi
+  s_7ca7e5988079c8::t_55bf1ab6b2861d 29-34,47,53,59,65
+.gitignore
+  s_7ca7e5988079c8::t_022e1478e0c952 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c2ab8506bcd5d322bdfafb81c9c0ea5cbaa18c98",
+  "prompts": {},
+  "sessions": {
+    "s_7ca7e5988079c8": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a17d7f-0b9b-73ff-8f79-878c1d9ff709",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Jonah Meijers <ik@jonahmeijers.nl>"
+    }
+  }
+}
