@@ -23,13 +23,15 @@
       compatible = "zmk,behavior-hold-tap"; \
       #binding-cells = <2>; \
       flavor = "balanced"; \
-      tapping-term-ms = <220>; \
       quick-tap-ms = <175>; \
       hold-trigger-on-release; \
       bindings = <&kp>, <&kp>;
-    // Shift is used mid-sentence (". The"), typically ~100-150 ms after the
-    // space, so the Shift keys use a shorter idle window (75 ms) than the
-    // other mods (125 ms). Trade-off: slightly more accidental shifts.
+    // Shift is used mid-sentence (". The"), so the Shift keys use a shorter
+    // idle window (75 ms) than the other mods (125 ms).
+    // Shift tapping term 150 ms, from recorded typing (tools/hrm-debug): T/N
+    // typed as letters were held at most 112 ms, Shift was held at least
+    // 175 ms, and 27% of the time Shift was released before the letter, which
+    // balanced resolves as a tap unless the term has passed.
 #if defined(MIRYOKU_HRM_RIGHT_POSITIONS)
 #define U_HRM_TRIGGER_L hold-trigger-key-positions = <MIRYOKU_HRM_RIGHT_POSITIONS>;
 #else
@@ -42,21 +44,25 @@
 #endif
     u_mt_l: u_mt_l {
       U_HRM_COMMON
+      tapping-term-ms = <220>;
       require-prior-idle-ms = <125>;
       U_HRM_TRIGGER_L
     };
     u_mt_r: u_mt_r {
       U_HRM_COMMON
+      tapping-term-ms = <220>;
       require-prior-idle-ms = <125>;
       U_HRM_TRIGGER_R
     };
     u_mt_l_shift: u_mt_l_shift {
       U_HRM_COMMON
+      tapping-term-ms = <150>;
       require-prior-idle-ms = <75>;
       U_HRM_TRIGGER_L
     };
     u_mt_r_shift: u_mt_r_shift {
       U_HRM_COMMON
+      tapping-term-ms = <150>;
       require-prior-idle-ms = <75>;
       U_HRM_TRIGGER_R
     };

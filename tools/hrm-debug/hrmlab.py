@@ -62,7 +62,7 @@ CORRECTION_KEYS = {36, 37, 32}  # Backspace, Delete, Esc (vim edits start with E
 # Current firmware settings (miryoku/miryoku_behaviors.dtsi).
 CURRENT = {
     'mt':       dict(flavor='balanced', term=220, qt=175, idle=125, on_release=True, positional=True),
-    'mt_shift': dict(flavor='balanced', term=220, qt=175, idle=75, on_release=True, positional=True),
+    'mt_shift': dict(flavor='balanced', term=150, qt=175, idle=75, on_release=True, positional=True),
     'lt':       dict(flavor='tap-preferred', term=200, qt=175, idle=150, on_release=False, positional=False),
     'lt_fast':  dict(flavor='balanced', term=200, qt=0, idle=0, on_release=False, positional=False),
 }
@@ -550,7 +550,7 @@ def pct(sorted_vals, p):
 
 GRID = {
     'mt':       dict(idle=[50, 75, 100, 125, 150], term=[180, 200, 220, 250, 280], positional=[True, False]),
-    'mt_shift': dict(idle=[0, 25, 50, 75, 100, 125], term=[160, 180, 200, 220, 250], positional=[True, False]),
+    'mt_shift': dict(idle=[0, 25, 50, 75, 100, 125], term=[130, 140, 150, 160, 170, 180, 200, 220], positional=[True, False]),
     'lt':       dict(idle=[0, 50, 100, 150], term=[180, 200, 220, 250], flavor=['tap-preferred', 'balanced']),
     'lt_fast':  dict(idle=[0, 25, 50, 75], term=[160, 180, 200, 220], flavor=['balanced', 'tap-preferred']),
 }
@@ -565,7 +565,7 @@ def cmd_tune(args):
         data.append((at, order))
     base = evaluate(sessions, data, CURRENT, args.weak)
     print(f'current settings: {base["labeled"]} detected mistakes, replay fixes {base["fixed"]} '
-          f'(sanity: should be 0), changes {base["broken"]} other decisions (should be 0)')
+          f'and changes {base["broken"]} other decisions (both 0 when CURRENT matches the firmware that recorded the logs)')
     best = {k: dict(v) for k, v in CURRENT.items()}
     for cls, grid in GRID.items():
         keys = list(grid)
