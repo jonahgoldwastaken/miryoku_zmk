@@ -6,8 +6,8 @@
 #if defined(MIRYOKU_TIMELESS_HRM)
     // Positional home row mods (tuned for ~100-120 wpm, see docs below).
     //
-    // - require-prior-idle-ms: a mod pressed within 125 ms of the previous
-    //   keystroke is always a tap. This is the main guard against misfires
+    // - require-prior-idle-ms: a mod pressed within 125 ms (Shift: 75 ms) of
+    //   the previous keystroke is always a tap. This is the main guard against misfires
     //   while typing (at 110 wpm keys arrive ~110 ms apart).
     // - balanced + hold-trigger-on-release + hold-trigger-key-positions:
     //   after a pause, the mod becomes a hold once another key is pressed AND
@@ -25,20 +25,40 @@
       flavor = "balanced"; \
       tapping-term-ms = <220>; \
       quick-tap-ms = <175>; \
-      require-prior-idle-ms = <125>; \
       hold-trigger-on-release; \
       bindings = <&kp>, <&kp>;
+    // Shift is used mid-sentence (". The"), typically ~100-150 ms after the
+    // space, so the Shift keys use a shorter idle window (75 ms) than the
+    // other mods (125 ms). Trade-off: slightly more accidental shifts.
+#if defined(MIRYOKU_HRM_RIGHT_POSITIONS)
+#define U_HRM_TRIGGER_L hold-trigger-key-positions = <MIRYOKU_HRM_RIGHT_POSITIONS>;
+#else
+#define U_HRM_TRIGGER_L
+#endif
+#if defined(MIRYOKU_HRM_LEFT_POSITIONS)
+#define U_HRM_TRIGGER_R hold-trigger-key-positions = <MIRYOKU_HRM_LEFT_POSITIONS>;
+#else
+#define U_HRM_TRIGGER_R
+#endif
     u_mt_l: u_mt_l {
       U_HRM_COMMON
-#if defined(MIRYOKU_HRM_RIGHT_POSITIONS)
-      hold-trigger-key-positions = <MIRYOKU_HRM_RIGHT_POSITIONS>;
-#endif
+      require-prior-idle-ms = <125>;
+      U_HRM_TRIGGER_L
     };
     u_mt_r: u_mt_r {
       U_HRM_COMMON
-#if defined(MIRYOKU_HRM_LEFT_POSITIONS)
-      hold-trigger-key-positions = <MIRYOKU_HRM_LEFT_POSITIONS>;
-#endif
+      require-prior-idle-ms = <125>;
+      U_HRM_TRIGGER_R
+    };
+    u_mt_l_shift: u_mt_l_shift {
+      U_HRM_COMMON
+      require-prior-idle-ms = <75>;
+      U_HRM_TRIGGER_L
+    };
+    u_mt_r_shift: u_mt_r_shift {
+      U_HRM_COMMON
+      require-prior-idle-ms = <75>;
+      U_HRM_TRIGGER_R
     };
 #else
     u_mt: u_mt {

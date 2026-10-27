@@ -4,8 +4,19 @@
 #pragma once
 
 #if defined(MIRYOKU_TIMELESS_HRM)
-#define U_MT_L(MOD, TAP) &u_mt_l MOD TAP
-#define U_MT_R(MOD, TAP) &u_mt_r MOD TAP
+// Shift gets its own behavior (shorter idle window), selected by modifier.
+#define U_MT_L(MOD, TAP) U_MT_L_SEL_##MOD(MOD, TAP)
+#define U_MT_R(MOD, TAP) U_MT_R_SEL_##MOD(MOD, TAP)
+#define U_MT_L_SEL_LSHFT(MOD, TAP) &u_mt_l_shift MOD TAP
+#define U_MT_R_SEL_LSHFT(MOD, TAP) &u_mt_r_shift MOD TAP
+#define U_MT_L_SEL_LGUI(MOD, TAP) &u_mt_l MOD TAP
+#define U_MT_R_SEL_LGUI(MOD, TAP) &u_mt_r MOD TAP
+#define U_MT_L_SEL_LALT(MOD, TAP) &u_mt_l MOD TAP
+#define U_MT_R_SEL_LALT(MOD, TAP) &u_mt_r MOD TAP
+#define U_MT_L_SEL_LCTRL(MOD, TAP) &u_mt_l MOD TAP
+#define U_MT_R_SEL_LCTRL(MOD, TAP) &u_mt_r MOD TAP
+#define U_MT_L_SEL_RALT(MOD, TAP) &u_mt_l MOD TAP
+#define U_MT_R_SEL_RALT(MOD, TAP) &u_mt_r MOD TAP
 #else
 #define U_MT_L(MOD, TAP) &u_mt MOD TAP
 #define U_MT_R(MOD, TAP) &u_mt MOD TAP
