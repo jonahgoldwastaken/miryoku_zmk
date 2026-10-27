@@ -1,0 +1,27 @@
+miryoku/mapping/38/totem.h
+  s_7ca7e5988079c8::t_ac471516053946 19-22
+miryoku/miryoku_babel/miryoku_layer_alternatives.h
+  s_7ca7e5988079c8::t_c0f998a8482920 11-12,17-18,23-24,29-30,35-36,41-42,47-48,53-54,59-60,65-66,71-72,77-78,83-84,89-90,95-96,101-102,107-108,113-114,119-120,125-126
+miryoku/miryoku_behaviors.h
+  s_7ca7e5988079c8::t_ac471516053946 6-12
+miryoku/miryoku_behaviors.dtsi
+  s_7ca7e5988079c8::t_ac471516053946 6-34,42
+miryoku/miryoku_kludge_tapdelay.h
+  s_7ca7e5988079c8::t_ac471516053946 36-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e635e3622ef86253a00d9a87528e23fc2b76629b",
+  "prompts": {},
+  "sessions": {
+    "s_7ca7e5988079c8": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a17d7f-0b9b-73ff-8f79-878c1d9ff709",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Jonah Meijers <ik@jonahmeijers.nl>"
+    }
+  }
+}
